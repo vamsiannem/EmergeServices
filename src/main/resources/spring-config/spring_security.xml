@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+
+    <global-method-security secured-annotations="enabled">
+    </global-method-security>
+
+    <!--<http auto-config="true"  security="none">
+        <intercept-url pattern="/org/*" access="ROLE_USER" />
+    </http>-->
+    <http auto-config="true" security="none" />
+
+    <!--CUSTOM LOGIN FORM-->
+    <!--<http pattern="/org/login/" security="none"/>-->
+    <!--<http pattern="/org/loginfailed/" security="none"/>-->
+    <!--<http pattern="/org/logout/" security="none"/>-->
+    <!--<http auto-config="false" pattern="/org/*">-->
+        <!--<form-login login-page="/org/login" default-target-url="/org/home"  authentication-failure-url="/org/loginfailed" />-->
+        <!--<logout logout-success-url="/org/logout" />-->
+    <!--</http>-->
+
+
+    <beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
+
+    <!-- contains the user name and password for the customers.
+        Password - encrypted using MD5
+        Sample username and password mentioned in this configuration :
+        username: admin
+        password : password
+    -->
+
+    <authentication-manager>
+        <authentication-provider>
+            <password-encoder hash="md5" />
+            <user-service>
+                <user name="admin" password="5f4dcc3b5aa765d61d8327deb882cf99" authorities="ROLE_USER"/>
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+
+</beans:beans>

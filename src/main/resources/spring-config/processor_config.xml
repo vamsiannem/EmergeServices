@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="jsonMapper" class="org.codehaus.jackson.map.ObjectMapper"/>
+
+    <bean id="configurationLoader"
+          class="org.springmodules.validation.bean.conf.loader.annotation.AnnotationBeanValidationConfigurationLoader"/>
+
+    <bean id="beanValidator" class="org.springmodules.validation.bean.BeanValidator">
+        <property name="configurationLoader" ref="configurationLoader"/>
+    </bean>
+
+    <!-- XStream Marshaller-->
+    <bean id="xstreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <property name="aliases">
+            <props>
+                <prop key="customerDTO">com.lister.esb.dto.CustomerDTO</prop>
+                <prop key="campaignDTO">com.lister.esb.dto.CampaignDTO</prop>
+                <prop key="programDTO">com.lister.esb.dto.ProgramDTO</prop>
+                <prop key="attributeDTO">com.lister.esb.dto.AttributeDTO</prop>
+                <prop key="templateDTO">com.lister.esb.dto.TemplateDTO</prop>
+                <prop key="campaignsegmentDTO">com.lister.esb.dto.CampaignsegmentDTO</prop>
+                <prop key="segmentDTO">com.lister.esb.dto.SegmentDTO</prop>
+				<prop key="purchaseDTO">com.lister.esb.dto.PurchaseDTO</prop>
+                <prop key="templatedetailDTO">com.lister.esb.dto.TemplatedetailDTO</prop>
+                <prop key="skuDTO">com.lister.esb.dto.SkuDTO</prop>
+                <prop key="categoryDTO">com.lister.esb.dto.CategoryDTO</prop>
+                <prop key="columnDTO">com.lister.esb.dto.ColumnDTO</prop>
+                <prop key="metadataDTO">com.lister.esb.dto.MetadataDTO</prop>
+                <prop key="reportcategoryDTO">com.lister.esb.dto.ReportcategoryDTO</prop>
+                <prop key="customerpurchaseDTO">com.lister.esb.dto.CustomerpurchaseDTO</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="simpleRequestDelegator" class="com.lister.esb.processors.SimpleRequestDelegator">
+        <constructor-arg index="0" name="requestProcessorMap" >
+            <map key-type="com.lister.esb.enums.SourceSystem" value-type="com.lister.esb.processors.IRequestProcessor">
+                <entry key="COMMERCE" > <ref bean="eCommRP"/> </entry>
+                <entry key="MARKET" > <ref bean="eMarketRP"/> </entry>
+                <entry key="SERVICES" > <ref bean="eServicesRP"/> </entry>
+            </map>
+        </constructor-arg>
+    </bean>
+
+
+
+</beans>

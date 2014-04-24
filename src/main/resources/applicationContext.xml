@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.1.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+    <context:property-placeholder location="classpath:esb_system.properties,classpath:db.properties"/>
+    <context:component-scan base-package="com.lister.esb"/>
+
+    <jpa:repositories base-package="com.lister.esb.repositories"/>
+
+
+    <task:annotation-driven/>
+    <bean id="serviceRequest" class="com.lister.esb.model.ServiceRequest" scope="prototype"/>
+    <tx:annotation-driven/>
+    <bean id="cronscheduler" class="com.lister.esb.mailchimp.CampaignBlast"/>
+
+    <!--<bean id="logger" class="com.lister.esb.utils.ESBLogger"/>
+
+    <aop:config>
+        <aop:pointcut id="pointCut" expression="execution(* com.lister.esb.processors..*.*(..))"/>
+        <aop:aspect id="loggerAspect" order="1" ref="logger">
+            <aop:before method="logEntry" pointcut-ref="pointCut"/>
+            <aop:after method="logExit" pointcut-ref="pointCut"/>
+        </aop:aspect>
+    </aop:config>
+-->
+
+    <import resource="spring-config/spring_security.xml"/>
+    <import resource="spring-config/db.xml"/>
+    <import resource="spring-config/mq_config.xml"/>
+    <import resource="spring-config/processor_config.xml"/>
+
+
+</beans>
